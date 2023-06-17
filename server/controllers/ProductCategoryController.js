@@ -2,7 +2,14 @@ import moment from 'moment-timezone';
 
 const findAll = async (req, res) => {
   try {
-    const productCategory = await req.context.models.product_category.findAll();
+    const productCategory = await req.context.models.product_category.findAll({
+      include: [
+        {
+          model: req.context.models.product,
+          as: 'products',
+        },
+      ],
+    });
     return res.send(productCategory);
   } catch (error) {
     return res.send(error);
